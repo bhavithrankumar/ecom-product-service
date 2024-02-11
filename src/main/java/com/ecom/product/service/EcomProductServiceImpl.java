@@ -1,25 +1,58 @@
 package com.ecom.product.service;
 
-import com.ecom.product.dto.RequestDto;
+import com.ecom.product.dto.InsertRequestDto;
+import com.ecom.product.dto.UpdateRequestDto;
 import com.ecom.product.model.EcomProductModel;
 import com.ecom.product.repository.EcomProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class EcomProductServiceImpl implements EcomProductService{
+public class EcomProductServiceImpl implements EcomProductService {
 
     @Autowired
     EcomProductDao ecomProductDao;
 
-    @Override
-    public Object insertProduct(RequestDto requestDto) {
+    public Object insertProduct(InsertRequestDto requestDto) {
         EcomProductModel ecomProductModel = EcomProductModel.builder()
                 .name(requestDto.getName())
                 .description(requestDto.getDescription())
                 .price(requestDto.getPrice())
                 .quantityAvailable(requestDto.getQuantityAvailable())
                 .build();
-      return ecomProductDao.save(ecomProductModel);
+        return ecomProductDao.save(ecomProductModel);
+    }
+
+    public void updateProduct(UpdateRequestDto updateRequestDto) {
+        Optional<EcomProductModel> optionalProduct = ecomProductDao.findById(updateRequestDto.getProductId());
+        if (optionalProduct.isPresent()) {
+            EcomProductModel product = optionalProduct.get();
+            if (updateRequestDto.getName() != null) {
+                product.setName(updateRequestDto.getName());
+            }
+            if (updateRequestDto.getDescription() != null) {
+                product.setDescription(updateRequestDto.getDescription());
+            }
+            if (updateRequestDto.getPrice() != null) {
+                product.setPrice(updateRequestDto.getPrice());
+            }
+            if (updateRequestDto.getQuantityAvailable() != null) {
+                product.setQuantityAvailable(updateRequestDto.getQuantityAvailable());
+            }
+            ecomProductDao.save(product);
+        } else {
+            throw new IllegalArgumentException("Product with ID " + updateRequestDto.getProductId() + " not found");
+        }
+    }
+    public Object fetchProduct(Long productId) {
+        Optional<EcomProductModel> optionalProduct = ecomProductDao.findById(productId);
+        if (optionalProduct.isPresent()) {
+            return optionalProduct;
+        }else {
+            throw new IllegalArgumentException("Product with ID " + productId + " not found");
+
+        }
     }
 }
