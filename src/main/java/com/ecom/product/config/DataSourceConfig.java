@@ -13,7 +13,7 @@ import java.beans.PropertyVetoException;
 
 @Configuration
 @Slf4j
-public class DataSourceConfig implements DataSourceInterface{
+public class DataSourceConfig implements DataSourceInterface {
 
     @Value(CommonConstant.MYSQL_URL)
     private String url;
@@ -23,6 +23,7 @@ public class DataSourceConfig implements DataSourceInterface{
     private String password;
     @Value(CommonConstant.MYSQL_DRIVER)
     private String driverClass;
+
     @Bean
     @ConfigurationProperties(prefix = CommonConstant.MYSQL_DATASOURCE)
     public DataSource dataSource() {
