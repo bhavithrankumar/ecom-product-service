@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class UpdateRequestDto {
-    @NotNull (message = "Product Id Should Not Be Null")
+    @NotNull(message = "Product Id Should Not Be Null")
     private Long productId;
     private String name;
     private String description;

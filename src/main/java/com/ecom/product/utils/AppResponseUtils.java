@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class AppResponseUtils {
     public static ResponseMessage successResponse(Object response) {
-        ResponseMessage message = new ResponseMessage("Success", CommonConstant.SUCCESSCODE);
+        ResponseMessage message = new ResponseMessage("Success", CommonConstant.SUCCESS_CODE);
         Map<Object, Object> responseMap = new HashMap<>();
         responseMap.put("response", response);
         message.setResponseMap(responseMap);
@@ -17,7 +17,7 @@ public class AppResponseUtils {
 
 
     public static ResponseMessage failureResponse(String errCode, String errMsg, Object response) {
-        ResponseMessage message = new ResponseMessage(errMsg,errCode);
+        ResponseMessage message = new ResponseMessage(errMsg, errCode);
         Map<Object, Object> responseMap = new HashMap<>();
         responseMap.put("response", response);
         message.setResponseMap(responseMap);

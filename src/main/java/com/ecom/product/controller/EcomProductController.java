@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ecom/product/")
+@RequestMapping(CommonConstant.REQUEST_MAPPING)
 @Slf4j
 public class EcomProductController {
 
@@ -24,36 +24,49 @@ public class EcomProductController {
     @Autowired
     EcomProductService ecomProductService;
 
-    @PostMapping("insert")
-    public ResponseEntity<ResponseMessage> insert (@Valid @RequestBody InsertRequestDto insertRequestDto){
+    @PostMapping(CommonConstant.INSERT)
+    public ResponseEntity<ResponseMessage> insert(@Valid @RequestBody InsertRequestDto insertRequestDto) {
         Object responseDetails;
         try {
             responseDetails = ecomProductService.insertProduct(insertRequestDto);
-          return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse(responseDetails));
-        } catch (Exception e){
-            log.error("Exception while Insert :: ",e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERRORCODE, CommonConstant.ERRORMSG, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse(responseDetails));
+        } catch (Exception e) {
+            log.error(CommonConstant.EXCEPTION, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
         }
     }
-    @PutMapping("update")
-    public ResponseEntity<ResponseMessage> update (@Valid @RequestBody UpdateRequestDto updateRequestDto){
+
+    @PutMapping(CommonConstant.UPDATE)
+    public ResponseEntity<ResponseMessage> update(@Valid @RequestBody UpdateRequestDto updateRequestDto) {
         try {
             ecomProductService.updateProduct(updateRequestDto);
-            return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse("Success"));
-        }catch (Exception e){
-            log.error("Exception while Insert :: ",e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERRORCODE, CommonConstant.ERRORMSG, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse(CommonConstant.SUCCESS));
+        } catch (Exception e) {
+            log.error(CommonConstant.EXCEPTION, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
         }
     }
-    @GetMapping("fetch")
-    public ResponseEntity<ResponseMessage> fetch (@RequestParam("productId") Long productId){
+
+    @GetMapping(CommonConstant.FETCH)
+    public ResponseEntity<ResponseMessage> fetch(@RequestParam(CommonConstant.PRODUCT_ID) Long productId) {
         Object responseDetails;
         try {
             responseDetails = ecomProductService.fetchProduct(productId);
             return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse(responseDetails));
-        } catch (Exception e){
-            log.error("Exception while Insert :: ",e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERRORCODE, CommonConstant.ERRORMSG, e.getMessage()));
+        } catch (Exception e) {
+            log.error(CommonConstant.EXCEPTION, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
+        }
+    }
+
+    @DeleteMapping(CommonConstant.DELETE)
+    public ResponseEntity<ResponseMessage> delete(@RequestParam(CommonConstant.PRODUCT_ID) Long productId) {
+        try {
+            ecomProductService.deleteProduct(productId);
+            return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse(CommonConstant.SUCCESS));
+        } catch (Exception e) {
+            log.error(CommonConstant.EXCEPTION, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
         }
     }
 }

@@ -5,7 +5,11 @@ import com.ecom.product.dto.UpdateRequestDto;
 
 public interface EcomProductService {
     Object insertProduct(InsertRequestDto requestDto);
+
     void updateProduct(UpdateRequestDto updateRequestDto);
-    Object fetchProduct(Long requestDto);
+
+    Object fetchProduct(Long productId);
+
+    void deleteProduct(Long productId);
 }
 

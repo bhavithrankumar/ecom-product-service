@@ -1,5 +1,6 @@
 package com.ecom.product.service;
 
+import com.ecom.product.constant.CommonConstant;
 import com.ecom.product.dto.InsertRequestDto;
 import com.ecom.product.dto.UpdateRequestDto;
 import com.ecom.product.model.EcomProductModel;
@@ -43,16 +44,25 @@ public class EcomProductServiceImpl implements EcomProductService {
             }
             ecomProductDao.save(product);
         } else {
-            throw new IllegalArgumentException("Product with ID " + updateRequestDto.getProductId() + " not found");
+            throw new IllegalArgumentException(CommonConstant.ERROR_ID + updateRequestDto.getProductId() + CommonConstant.NOT_FOUND);
         }
     }
+
     public Object fetchProduct(Long productId) {
         Optional<EcomProductModel> optionalProduct = ecomProductDao.findById(productId);
         if (optionalProduct.isPresent()) {
             return optionalProduct;
-        }else {
-            throw new IllegalArgumentException("Product with ID " + productId + " not found");
+        } else {
+            throw new IllegalArgumentException(CommonConstant.ERROR_ID + productId + CommonConstant.NOT_FOUND);
 
+        }
+    }
+
+    public void deleteProduct(Long productId) {
+        if (ecomProductDao.existsById(productId)) {
+            ecomProductDao.deleteById(productId);
+        } else {
+            throw new IllegalArgumentException(CommonConstant.ERROR_ID + productId + CommonConstant.NOT_FOUND);
         }
     }
 }
