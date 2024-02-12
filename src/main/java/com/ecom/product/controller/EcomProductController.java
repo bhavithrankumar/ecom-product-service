@@ -69,4 +69,15 @@ public class EcomProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
         }
     }
+    @PutMapping(CommonConstant.PRICE_UPDATE)
+    public ResponseEntity<ResponseMessage> updateTaxAndDiscount(@Valid @RequestBody UpdateRequestDto updateRequestDto) {
+        Object responseDetails;
+        try {
+            responseDetails = ecomProductService.updateTaxAndDiscount(updateRequestDto);
+            return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse(responseDetails));
+        } catch (Exception e) {
+            log.error(CommonConstant.EXCEPTION, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
+        }
+    }
 }

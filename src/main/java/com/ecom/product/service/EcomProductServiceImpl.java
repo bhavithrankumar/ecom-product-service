@@ -65,4 +65,36 @@ public class EcomProductServiceImpl implements EcomProductService {
             throw new IllegalArgumentException(CommonConstant.ERROR_ID + productId + CommonConstant.NOT_FOUND);
         }
     }
+
+    public Object updateTaxAndDiscount(UpdateRequestDto updateRequestDto) {
+        EcomProductModel ecomProductModel;
+        Optional<EcomProductModel> optionalProduct = ecomProductDao.findById(updateRequestDto.getProductId());
+        if (optionalProduct.isPresent()) {
+            ecomProductModel = optionalProduct.get();
+            if (updateRequestDto.getPercentage() == null || updateRequestDto.getPercentage() <= 0 || updateRequestDto.getPercentage() > 100) {
+                throw new IllegalArgumentException(CommonConstant.INVALID_PERCENTAGE + updateRequestDto.getPercentage());
+            }
+            switch (updateRequestDto.getType()) {
+                case CommonConstant.TAX:
+                    return this.taxUpdate(ecomProductModel, updateRequestDto.getPercentage());
+                case CommonConstant.DISCOUNT:
+                    return this.discountUpdate(ecomProductModel, updateRequestDto.getPercentage());
+                default:
+                    throw new IllegalArgumentException(CommonConstant.INVALID_TYPE + updateRequestDto.getType() + CommonConstant.NOT_FOUND);
+            }
+        } else {
+            throw new IllegalArgumentException(CommonConstant.ERROR_ID + updateRequestDto.getProductId() + CommonConstant.NOT_FOUND);
+
+        }
+    }
+
+    private EcomProductModel taxUpdate(EcomProductModel ecomProductModel, Double tax) {
+        ecomProductModel.setPrice(Double.parseDouble(String.format("%.2f", ecomProductModel.getPrice() + (ecomProductModel.getPrice() * (tax / 100)))));
+        return ecomProductDao.save(ecomProductModel);
+    }
+
+    private EcomProductModel discountUpdate(EcomProductModel ecomProductModel, Double discount) {
+        ecomProductModel.setPrice(Double.parseDouble(String.format("%.2f", ecomProductModel.getPrice() - (ecomProductModel.getPrice() * (discount / 100)))));
+        return ecomProductDao.save(ecomProductModel);
+    }
 }
