@@ -20,4 +20,11 @@ public class EcomProductModel {
     private String description;
     private double price;
     private int quantityAvailable;
+
+    public EcomProductModel(String name, String description, double price, int quantityAvailable) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantityAvailable = quantityAvailable;
+    }
 }
