@@ -11,5 +11,6 @@ public interface EcomProductService {
     Object fetchProduct(Long productId);
 
     void deleteProduct(Long productId);
+    Object updateTaxAndDiscount(UpdateRequestDto updateRequestDto);
 }
 

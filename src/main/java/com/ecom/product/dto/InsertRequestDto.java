@@ -1,9 +1,11 @@
 package com.ecom.product.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class InsertRequestDto {
     @NotNull(message = "Name should not be null")
     private String name;

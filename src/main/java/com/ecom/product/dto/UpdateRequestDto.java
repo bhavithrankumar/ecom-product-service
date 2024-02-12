@@ -11,4 +11,7 @@ public class UpdateRequestDto {
     private String description;
     private Double price;
     private Integer quantityAvailable;
+    //possible values tax,discount
+    private String type;
+    private Double percentage;
 }
