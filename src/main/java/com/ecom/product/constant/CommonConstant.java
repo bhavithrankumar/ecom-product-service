@@ -8,7 +8,7 @@ public class CommonConstant {
     public static final String MYSQL_USERNAME = "${mysql.datasource.username}";
     public static final String MYSQL_URL = "${mysql.datasource.url}";
     public static final String SUCCESS_CODE = "00";
-    public static final String ERROR_CODE = "99";
+    public static final String ERROR_CODE = "500";
     public static final String ERROR_MSG = "Opps! something went wrong";
     public static final String EXCEPTION = "Exception :: ";
     public static final String INSERT = "insert";
