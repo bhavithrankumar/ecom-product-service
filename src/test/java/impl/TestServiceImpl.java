@@ -50,9 +50,10 @@ class TestServiceImpl {
         request.setPrice(75000D);
         request.setQuantityAvailable(20);
         when(ecomProductService.insertProduct(request)).thenReturn(true);
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8899/ecom/product/insert")
+        MvcResult mvcResult =  mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8890/ecom/product/insert")
+                        .content(new ObjectMapper().writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(request)))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
         verify(ecomProductService, times(1)).insertProduct(request);
