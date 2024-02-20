@@ -5,9 +5,12 @@ import com.ecom.product.dto.InsertRequestDto;
 import com.ecom.product.dto.UpdateRequestDto;
 import com.ecom.product.model.EcomProductModel;
 import com.ecom.product.repository.EcomProductDao;
+import com.ecom.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -15,6 +18,8 @@ public class EcomProductServiceImpl implements EcomProductService {
 
     @Autowired
     EcomProductDao ecomProductDao;
+    @Autowired
+    ProductRepository productRepository;
 
     public Object insertProduct(InsertRequestDto requestDto) {
         EcomProductModel ecomProductModel = EcomProductModel.builder()
@@ -54,6 +59,15 @@ public class EcomProductServiceImpl implements EcomProductService {
             return optionalProduct;
         } else {
             throw new IllegalArgumentException(CommonConstant.ERROR_ID + productId + CommonConstant.NOT_FOUND);
+
+        }
+    }
+    public Object fetchProductV2(String name) {
+        Optional<List<Map<String, Object>>> optionalProduct = productRepository.findByName(name);
+        if (optionalProduct.isPresent()) {
+            return optionalProduct;
+        } else {
+            throw new IllegalArgumentException(CommonConstant.ERROR_ID + name + CommonConstant.NOT_FOUND);
 
         }
     }

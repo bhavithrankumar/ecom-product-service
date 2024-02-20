@@ -9,6 +9,7 @@ public interface EcomProductService {
     void updateProduct(UpdateRequestDto updateRequestDto);
 
     Object fetchProduct(Long productId);
+    Object fetchProductV2(String name);
 
     void deleteProduct(Long productId);
     Object updateTaxAndDiscount(UpdateRequestDto updateRequestDto);

@@ -15,8 +15,10 @@ public class CommonConstant {
     public static final String UPDATE = "update";
     public static final String PRICE_UPDATE = "price/update";
     public static final String FETCH = "fetch";
+    public static final String FETCH_PRODUCT = "fetch/product";
     public static final String DELETE = "delete";
     public static final String PRODUCT_ID = "productId";
+    public static final String NAME = "name";
     public static final String REQUEST_MAPPING = "/ecom/product/";
     public static final String ERROR_ID = "Product with ID ";
     public static final String NOT_FOUND = " not found";

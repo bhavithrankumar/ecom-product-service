@@ -58,6 +58,17 @@ public class EcomProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
         }
     }
+    @GetMapping(CommonConstant.FETCH_PRODUCT)
+    public ResponseEntity<ResponseMessage> fetchProduct(@RequestParam(CommonConstant.NAME) String name) {
+        Object responseDetails;
+        try {
+            responseDetails = ecomProductService.fetchProductV2(name);
+            return ResponseEntity.status(HttpStatus.OK).body(AppResponseUtils.successResponse(responseDetails));
+        } catch (Exception e) {
+            log.error(CommonConstant.EXCEPTION, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(AppResponseUtils.failureResponse(CommonConstant.ERROR_CODE, CommonConstant.ERROR_MSG, e.getMessage()));
+        }
+    }
 
     @DeleteMapping(CommonConstant.DELETE)
     public ResponseEntity<ResponseMessage> delete(@RequestParam(CommonConstant.PRODUCT_ID) Long productId) {
